@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Benjamin Schulz (github.com/bysy)
+  -->
+
+<resources>
+    <style name="AppTheme" parent="@style/Base.AppTheme">
+        <!-- Extending the hero image behind the status bar works fine with just the fragment layout,
+             but doesn't work properly with ViewPager. So we just use a regular status bar for now.-->
+        <!--
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+         -->
+        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
+    </style>
+</resources>

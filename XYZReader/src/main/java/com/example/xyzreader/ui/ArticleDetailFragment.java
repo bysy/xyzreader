@@ -1,5 +1,6 @@
 package com.example.xyzreader.ui;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Intent;
@@ -10,8 +11,11 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ShareCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -52,6 +56,7 @@ public class ArticleDetailFragment extends Fragment implements
     private int mScrollY;
     private boolean mIsCard = false;
     private int mStatusBarFullOpacityBottom;
+    private TextView mTitleView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -102,15 +107,28 @@ public class ArticleDetailFragment extends Fragment implements
             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
 
-        //mScrollView = (ObservableScrollView) mRootView.findViewById(R.id.scrollview);
-        //mScrollView.setCallbacks(new ObservableScrollView.Callbacks() {
-        //    @Override
-        //    public void onScrollChanged() {
-        //        mScrollY = mScrollView.getScrollY();
-        //        mPhotoContainerView.setTranslationY((int) (mScrollY - mScrollY / PARALLAX_FACTOR));
-        //        updateStatusBar();
-        //    }
-        //});
+        // Add a listener to show the article title as a regular action bar
+        // title when our custom layout is collapsed. We can't use
+        // CollapsibleToolbarLayout's title behavior here since it won't handle
+        // our custom meta-bar layout with byline and it cuts off long titles
+        // when expanded.
+        final ActionBar bar = getActionBar();
+        AppBarLayout abl = (AppBarLayout) mRootView.findViewById(R.id.appbar_layout);
+        if (bar!=null && abl!=null) {
+            abl.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                    if (appBarLayout.getTotalScrollRange() == -1 * verticalOffset) {
+                        bar.setDisplayShowTitleEnabled(true);
+                        if (mTitleView!=null) {
+                            bar.setTitle(mTitleView.getText());
+                        }
+                    } else {
+                        bar.setDisplayShowTitleEnabled(false);
+                    }
+                }
+            });
+        }
 
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
 
@@ -129,6 +147,14 @@ public class ArticleDetailFragment extends Fragment implements
         bindViews();
         updateStatusBar();
         return mRootView;
+    }
+
+    private ActionBar getActionBar() {
+        Activity a = getActivity();
+        if (a instanceof AppCompatActivity) {
+            return ((AppCompatActivity) a).getSupportActionBar();
+        }
+        return null;
     }
 
     private void updateStatusBar() {
@@ -164,7 +190,7 @@ public class ArticleDetailFragment extends Fragment implements
             return;
         }
 
-        TextView titleView = (TextView) mRootView.findViewById(R.id.article_title);
+        mTitleView = (TextView) mRootView.findViewById(R.id.article_title);
         TextView bylineView = (TextView) mRootView.findViewById(R.id.article_byline);
         bylineView.setMovementMethod(new LinkMovementMethod());
         TextView bodyView = (TextView) mRootView.findViewById(R.id.article_body);
@@ -174,7 +200,7 @@ public class ArticleDetailFragment extends Fragment implements
             mRootView.setAlpha(0);
             mRootView.setVisibility(View.VISIBLE);
             mRootView.animate().alpha(1);
-            titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
+            mTitleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
             bylineView.setText(Html.fromHtml(
                     DateUtils.getRelativeTimeSpanString(
                             mCursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
@@ -203,7 +229,7 @@ public class ArticleDetailFragment extends Fragment implements
                     });
         } else {
             mRootView.setVisibility(View.GONE);
-            titleView.setText("N/A");
+            mTitleView.setText("N/A");
             bylineView.setText("N/A" );
             bodyView.setText("N/A");
         }

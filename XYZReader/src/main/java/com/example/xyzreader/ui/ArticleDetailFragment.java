@@ -12,11 +12,13 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
@@ -57,6 +59,7 @@ public class ArticleDetailFragment extends Fragment implements
     private boolean mIsCard = false;
     private int mStatusBarFullOpacityBottom;
     private TextView mTitleView;
+    private Toolbar mToolbar;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -107,24 +110,31 @@ public class ArticleDetailFragment extends Fragment implements
             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
 
-        // Add a listener to show the article title as a regular action bar
-        // title when our custom layout is collapsed. We can't use
-        // CollapsibleToolbarLayout's title behavior here since it won't handle
-        // our custom meta-bar layout with byline and it cuts off long titles
-        // when expanded.
-        final ActionBar bar = getActionBar();
+        // NOTE(Ben) Add a listener to show the article title as a regular action bar
+        // title when our custom layout is collapsed. We use
+        // CollapsibleToolbarLayout's title facility only when collapsed.
+        // Otherwise, our custom layout does the job better especially with
+        // long titles. (It also looks kinda cool.)
+        //
+        // The one limitation in all this is that with ViewPager we somehow
+        // can't draw behind the status bar. (It works fine without the pager.)
+        // It's as if it ignores the nested fitsSystemWindows declarations.
+
+        mToolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        final CollapsingToolbarLayout ctl = (CollapsingToolbarLayout) mRootView.findViewById(R.id.collapsing_toolbar);
         AppBarLayout abl = (AppBarLayout) mRootView.findViewById(R.id.appbar_layout);
-        if (bar!=null && abl!=null) {
+        if (abl!=null) {
             abl.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                 @Override
                 public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                     if (appBarLayout.getTotalScrollRange() == -1 * verticalOffset) {
-                        bar.setDisplayShowTitleEnabled(true);
+                        ctl.setTitleEnabled(true);
                         if (mTitleView!=null) {
-                            bar.setTitle(mTitleView.getText());
+                            ctl.setTitle(mTitleView.getText());
                         }
                     } else {
-                        bar.setDisplayShowTitleEnabled(false);
+                        ctl.setTitleEnabled(false);
                     }
                 }
             });
@@ -147,14 +157,6 @@ public class ArticleDetailFragment extends Fragment implements
         bindViews();
         updateStatusBar();
         return mRootView;
-    }
-
-    private ActionBar getActionBar() {
-        Activity a = getActivity();
-        if (a instanceof AppCompatActivity) {
-            return ((AppCompatActivity) a).getSupportActionBar();
-        }
-        return null;
     }
 
     private void updateStatusBar() {

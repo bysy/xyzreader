@@ -7,4 +7,5 @@
     <color name="colorPrimaryVeryLight">@color/light_blue_050</color>
 
     <color name="photo_placeholder">@color/colorPrimaryVeryLight</color>
+    <color name="transparent">@android:color/transparent</color>
 </resources>

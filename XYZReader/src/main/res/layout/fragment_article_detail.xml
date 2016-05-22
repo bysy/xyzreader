@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2016. Benjamin Schulz (github.com/bysy)
+  -->
+
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -69,7 +73,8 @@
         </LinearLayout>
             <!-- This is a dummy toolbar to let CollapsibleToolbarLayout
             do its layout measuring correctly and provide the content scrim.
-            The real actionbar is defined in the activity's layout. -->
+            The real actionbar is defined in the activity's layout.
+            The dummy navigation icon is added in code for compatibility. -->
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"

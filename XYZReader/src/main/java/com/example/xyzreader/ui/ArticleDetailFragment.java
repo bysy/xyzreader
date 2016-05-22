@@ -121,7 +121,7 @@ public class ArticleDetailFragment extends Fragment implements
         // It's as if it ignores the nested fitsSystemWindows declarations.
 
         mToolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        mToolbar.setNavigationIcon(R.color.transparent);
         final CollapsingToolbarLayout ctl = (CollapsingToolbarLayout) mRootView.findViewById(R.id.collapsing_toolbar);
         AppBarLayout abl = (AppBarLayout) mRootView.findViewById(R.id.appbar_layout);
         if (abl!=null) {

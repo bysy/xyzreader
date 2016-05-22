@@ -35,7 +35,14 @@
             android:layout_height="match_parent"
             app:layout_collapseMode="parallax"
             android:fitsSystemWindows="true"/>
-
+            <!-- Add a subtle scrim for the action bar-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/gradient_scrim_top"
+                android:layout_gravity="top"/>
+            <!-- For the meta bar, keep a transparent shaded background
+            instead of a gradient. Looks very bold. -->
         <LinearLayout
             android:id="@+id/meta_bar"
             android:layout_width="match_parent"

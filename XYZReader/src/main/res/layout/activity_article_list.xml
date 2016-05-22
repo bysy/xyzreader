@@ -15,7 +15,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsible_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="112dp"
+            android:layout_height="@dimen/extended_actionbar_size"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -25,9 +25,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:layout_gravity="bottom">
+                <!-- Keep using the logo for branding but adjust the size
+                and spacing a bit to make it look more like regular titles. -->
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40sp"
+                    android:paddingTop="2dp"
                     android:src="@drawable/logo"
                     android:contentDescription="@string/app_name" />
             </android.support.v7.widget.Toolbar>

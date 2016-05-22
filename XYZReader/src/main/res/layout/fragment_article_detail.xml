@@ -11,7 +11,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="256dp"
+        android:layout_height="@dimen/hero_image_height"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:fitsSystemWindows="true">
 
@@ -42,6 +42,7 @@
             android:paddingLeft="56dp"
             android:paddingStart="56dp"
             android:paddingRight="@dimen/detail_inner_horiz_margin"
+            android:paddingEnd="@dimen/detail_inner_horiz_margin"
             android:paddingTop="@dimen/detail_metabar_vert_padding"
             android:paddingBottom="@dimen/detail_metabar_vert_padding">
 

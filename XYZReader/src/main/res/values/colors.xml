@@ -8,4 +8,6 @@
 
     <color name="photo_placeholder">@color/colorPrimaryVeryLight</color>
     <color name="transparent">@android:color/transparent</color>
+    <color name="white_50pct">#80ffffff</color>
+    <color name="black_40pct">#66000000</color>
 </resources>

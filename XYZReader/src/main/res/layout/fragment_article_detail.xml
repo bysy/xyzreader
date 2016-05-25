@@ -49,13 +49,13 @@
                 android:id="@+id/meta_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#66000000"
+                android:background="@color/black_40pct"
                 android:layout_gravity="bottom"
                 android:orientation="vertical"
-                android:paddingLeft="56dp"
-                android:paddingStart="56dp"
-                android:paddingRight="@dimen/detail_inner_horiz_margin"
-                android:paddingEnd="@dimen/detail_inner_horiz_margin"
+                android:paddingLeft="@dimen/detail_metabar_start_padding"
+                android:paddingStart="@dimen/detail_metabar_start_padding"
+                android:paddingRight="@dimen/detail_metabar_end_padding"
+                android:paddingEnd="@dimen/detail_metabar_end_padding"
                 android:paddingTop="@dimen/detail_metabar_vert_padding"
                 android:paddingBottom="@dimen/detail_metabar_vert_padding">
                 <TextView
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
                     android:fontFamily="sans-serif-condensed"
-                    android:textColor="#fff"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:textSize="@dimen/detail_title_text_size"
                     android:lineSpacingMultiplier="0.9" />
@@ -76,7 +76,7 @@
                     style="?android:attr/textAppearanceSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#8fff" />
+                    android:textColor="@color/white_50pct" />
             </LinearLayout>
 
             <!-- This is a dummy toolbar to let CollapsibleToolbarLayout
